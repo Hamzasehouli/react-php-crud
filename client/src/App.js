@@ -13,6 +13,8 @@ import Add from "./views/AddUser";
 import Update from "./views/UpdateUser";
 // import Footer from "./views/Footer";
 
+import { AppContext, InitContext } from "./store/index";
+
 export default class App extends Component {
   render() {
     return (
