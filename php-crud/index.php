@@ -1,4 +1,9 @@
 <?php
+header('content-type:application/json');
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-headers: *");
+header('Access-Control-Allow-Credentials: true');
+// header('Access-Control-Max-Age: 86400'); // cache for 1 day
 require_once './vendor/autoload.php';
 session_start();
 if (isset($_SESSION['expTime'])) {

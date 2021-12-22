@@ -10,16 +10,27 @@ export default class Signup extends Component {
     };
   }
 
-  state = { name: "µdd" };
-
-  submitForm = (e) => {
+  submitForm = async (e) => {
     e.preventDefault();
-    console.log(this);
+
+    const body = {
+      email: this.state.email,
+      username: this.state.username,
+      password: this.state.password,
+    };
+
+    const res = await fetch(`http://localhost:8000/api/v1/auth/signup`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+    console.log(res);
+    const data = await res.json();
+    console.log(data);
   };
 
-  onChange = (e) => {
-    console.log(e);
-  };
   render() {
     return (
       <form
