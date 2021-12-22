@@ -8,7 +8,9 @@ import {
 import Header from "./views/Header";
 import Login from "./views/Login";
 import Signup from "./views/Signup";
-import Update from "./views/Update";
+import Home from "./views/Home";
+import Add from "./views/AddUser";
+import Update from "./views/UpdateUser";
 // import Footer from "./views/Footer";
 
 export default class App extends Component {
@@ -16,7 +18,12 @@ export default class App extends Component {
     return (
       <Router>
         <Header></Header>
-        <Route exact path="/"></Route>
+        <Route exact path="/">
+          <Redirect to="/home" />
+        </Route>
+        <Route path="/home">
+          <Home></Home>
+        </Route>
         <Route path="/signup">
           <Signup />
         </Route>
@@ -25,6 +32,9 @@ export default class App extends Component {
         </Route>
         <Route path="/update">
           <Update />
+        </Route>
+        <Route path="/Add">
+          <Add />
         </Route>
         {/* <main></main>
         <Footer></Footer> */}
