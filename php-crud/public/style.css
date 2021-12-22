@@ -1,0 +1,158 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,700;1,300&display=swap");
+:root {
+  --color-primary: red;
+  --color-secondary: blue;
+
+  --color-dark: black;
+  --color-light: white;
+}
+
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.6rem;
+  font-weight: 400;
+}
+
+.form {
+  width: 40%;
+  margin: 7rem auto;
+  padding: 3rem;
+  border-radius: 10px;
+  box-shadow: 2px 2px 20px rgba(129, 127, 127, 0.301);
+}
+
+.form__control > * {
+  width: 100%;
+  display: block;
+}
+.form__control:not(:last-child) {
+  margin-bottom: 2rem;
+}
+
+.form__label {
+  margin-bottom: 1rem;
+}
+
+.form__input {
+  padding: 0 0.5rem;
+  outline: none;
+  border: none;
+  box-sizing: inherit;
+  border: 1.5px solid rgba(189, 188, 188, 0.377);
+}
+
+.form__input,
+.btn-form {
+  height: 3rem;
+}
+
+button,
+.anch {
+  cursor: pointer;
+  outline: none;
+  border: none;
+  padding: 0.7rem 4rem;
+  border-radius: 10px;
+  color: var(--color-light);
+}
+
+input {
+  font-size: inherit;
+  font-family: inherit;
+}
+
+.btn-flat {
+  background-color: var(--color-primary) !important;
+
+  font-size: inherit;
+}
+
+.btn-primary {
+  background-color: blue;
+}
+.btn-danger {
+  background-color: red;
+}
+
+.users__list {
+  width: 80%;
+  padding: 3rem;
+  border-radius: 10px;
+  box-shadow: 2px 2px 20px rgba(99, 98, 98, 0.288);
+  margin: 7rem auto;
+}
+
+.users__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.users__item:not(:last-of-type) {
+  border-bottom: 1.5px solid rgba(192, 188, 188, 0.411);
+}
+
+.users__img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin: 1rem;
+}
+
+.users__details {
+  flex: 1;
+  margin-right: auto;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 5rem;
+}
+
+.users__info {
+}
+
+.users__btns {
+}
+
+a {
+  text-decoration: none;
+}
+
+.header {
+}
+
+nav {
+  background-color: rgba(139, 70, 70, 0.308);
+  display: flex;
+  justify-content: space-between;
+
+  padding: 1rem 3rem;
+}
+
+.nav__list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.nav__item:not(:last-of-type) {
+  margin-right: 1.5rem;
+}
+
+.nav__link {
+}
+
+ul {
+  list-style: none;
+}
