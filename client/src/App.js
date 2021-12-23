@@ -68,7 +68,7 @@ export const App = function () {
         <Route path="/home">{ctx.isLoggedIn ? <Home /> : <Login />}</Route>
         <Route path="/signup">{ctx.isLoggedIn ? <Home /> : <Signup />}</Route>
         <Route path="/login">{ctx.isLoggedIn ? <Home /> : <Login />}</Route>
-        <Route path="/updateuser">
+        <Route path="/updateuser/:userid">
           {ctx.isLoggedIn ? <Update /> : <Login />}
         </Route>
         <Route path="/adduser">{ctx.isLoggedIn ? <Add /> : <Login />}</Route>

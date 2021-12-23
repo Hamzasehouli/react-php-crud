@@ -7,10 +7,10 @@ export default class AddUser extends Component {
         method="post"
         action="/updateuser?userid=<?php print_r($id)?>"
         className="form"
-        enctype="multipart/form-data"
+        encType="multipart/form-data"
       >
         <div className="form__control">
-          <label for="name" className="form__label">
+          <label htmlFor="name" className="form__label">
             Name
           </label>
           <input
@@ -21,7 +21,7 @@ export default class AddUser extends Component {
           ></input>
         </div>
         <div className="form__control">
-          <label for="email" className="form__label">
+          <label htmlFor="email" className="form__label">
             Email
           </label>
           <input
@@ -32,7 +32,7 @@ export default class AddUser extends Component {
           ></input>
         </div>
         <div className="form__control">
-          <label for="image" className="form__label">
+          <label htmlFor="image" className="form__label">
             Image
           </label>
 

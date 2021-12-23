@@ -16,7 +16,10 @@ class UserControllers
 
         $stmt = $con->prepare($query);
         $stmt->execute();
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        header("HTTP/1.1 200");
+        print_r(json_encode(['status' => 'success', 'message' => 'You sign up successfully', 'data' => ['users' => $results]]));
     }
     public static function addUser()
     {
