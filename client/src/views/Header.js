@@ -5,7 +5,7 @@ import { AppContext } from "../store/index";
 
 export default function Header() {
   const ctx = useContext(AppContext);
-  console.log(ctx);
+
   const onClick = function () {
     document.cookie = "jwt=;path=/";
     ctx.setLoggin(false);

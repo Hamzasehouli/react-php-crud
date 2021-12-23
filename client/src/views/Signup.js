@@ -23,11 +23,12 @@ export default function Signup() {
       },
       body: JSON.stringify(body),
     });
-    console.log(res);
+
     const data = await res.json();
-    console.log(data);
+
     if (res) {
       document.cookie = `jwt=${data.token}; path=/`;
+
       ctx.setLoggin(true);
       history.replace("/");
     }
