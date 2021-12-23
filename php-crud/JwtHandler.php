@@ -10,7 +10,7 @@ class JwtHandler
     {
         $header = json_encode(['typ' => 'JWT', 'alg' => 'HS256']);
 
-        $payload = json_encode(['user_id' => $email, 'exp' => (time() + (120 * 60))]);
+        $payload = json_encode(['user_email' => $email, 'exp' => (time() + (120 * 60))]);
 
         $base64UrlHeader = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($header));
 
@@ -42,7 +42,7 @@ class JwtHandler
         $signature_provided = $tokenParts[2];
 
         $expiration = json_decode($payload)->exp;
-        $id = json_decode($payload)->user_id;
+        $email = json_decode($payload)->user_email;
 
         $is_token_expired = ($expiration - time()) < 0;
 
@@ -62,17 +62,21 @@ class JwtHandler
         $is_signature_valid = ($base64UrlSignature === $signature_provided);
         $database = new Database();
         $con = $database->connect();
-        $query = 'SELECT * FROM user WHERE id=:id';
+        $query = 'SELECT * FROM admin WHERE email=:email';
+
         $stmt = $con->prepare($query);
 
-        $stmt->bindValue(':id', $id);
+        $stmt->bindValue(':email', $email);
         $stmt->execute();
-        $row = $stmt1->rowCount();
+        $row = $stmt->rowCount();
+
         if ($row < 0) {
             header("HTTP/1.1 404");
-            return print_r(json_encode(['status' => 'fail', 'message' => 'User not found', 'isLoggedin' => false]));
+            print_r(json_encode(['status' => 'fail', 'message' => 'User not found', 'isLoggedin' => false]));
+            exit;
         }
         $user = $stmt->fetch(\PDO::FETCH_ASSOC);
+
         extract($user);
 
         if ($is_signature_valid) {

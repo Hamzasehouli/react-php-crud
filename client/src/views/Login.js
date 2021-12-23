@@ -1,19 +1,24 @@
-import React, { Component } from "react";
-import store from "../store/reducers";
+import React from "react";
+import { useHistory } from "react-router-dom";
+import { useContext, useRef } from "react";
+import { AppContext } from "../store/index";
 
-export default class Login extends Component {
-  constructor() {
-    super();
-    this.state = {
-      password: "",
-      email: "",
-    };
-  }
+export default function Login() {
+  const email = useRef();
+  const password = useRef();
 
-  onSubmit = async (e) => {
+  const history = useHistory();
+
+  const ctx = useContext(AppContext);
+
+  async function onSubmit(e) {
     e.preventDefault();
-    console.log(this.state);
-    const body = { email: this.state.email, password: this.state.password };
+
+    const body = {
+      email: email.current.value,
+      password: password.current.value,
+    };
+
     const res = await fetch("http://localhost:8000/api/v1/auth/login", {
       method: "POST",
       headers: {
@@ -22,48 +27,44 @@ export default class Login extends Component {
       body: JSON.stringify(body),
     });
     const data = await res.json();
-    console.log(data);
-    console.log(res);
+
     if (res) {
       document.cookie = `jwt=${data.token}; path=/`;
-      store.dispatch({ type: "signin" });
+      ctx.setLoggin(true);
+      history.replace("/");
     }
-  };
-
-  render() {
-    return (
-      <form onSubmit={this.onSubmit} className="form">
-        <div className="form__control">
-          <label htmlFor="email" className="form__label">
-            Email
-          </label>
-          <input
-            name="email"
-            type="email"
-            id="email"
-            className="form__input"
-            value={this.state.email}
-            onInput={(e) => this.setState({ email: e.target.value })}
-          ></input>
-        </div>
-        <div className="form__control">
-          <label htmlFor="email" className="form__label">
-            Password
-          </label>
-          <input
-            name="password"
-            type="password"
-            id="password"
-            value={this.state.password}
-            className="form__input"
-            onInput={(e) => this.setState({ password: e.target.value })}
-          ></input>
-        </div>
-        <button type="submit" className="btn btn-flat">
-          Login
-        </button>
-        <a href="/signup">You do not have an account yet? Signup here</a>
-      </form>
-    );
   }
+
+  return (
+    <form onSubmit={(e) => onSubmit(e)} className="form">
+      <div className="form__control">
+        <label htmlFor="email" className="form__label">
+          Email
+        </label>
+        <input
+          name="email"
+          type="email"
+          id="email"
+          className="form__input"
+          ref={email}
+        ></input>
+      </div>
+      <div className="form__control">
+        <label htmlFor="email" className="form__label">
+          Password
+        </label>
+        <input
+          name="password"
+          type="password"
+          id="password"
+          ref={password}
+          className="form__input"
+        ></input>
+      </div>
+      <button type="submit" className="btn btn-flat">
+        Login
+      </button>
+      <a href="/signup">You do not have an account yet? Signup here</a>
+    </form>
+  );
 }

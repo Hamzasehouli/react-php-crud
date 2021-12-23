@@ -89,4 +89,9 @@ class AuthControllers
         }
 
     }
+
+    public static function protect()
+    {
+        JwtHandler::verifyToken();
+    }
 }

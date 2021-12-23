@@ -1,24 +1,19 @@
-import React, { Component, useContext } from "react";
+import React, { useContext, useRef } from "react";
+import { useHistory } from "react-router-dom";
+import { AppContext } from "../store/index";
 
-import store from "../store/reducers.js";
-
-export default class Signup extends Component {
-  constructor() {
-    super();
-    this.state = {
-      username: "",
-      email: "",
-      password: "",
-    };
-  }
-
-  submitForm = async (e) => {
+export default function Signup() {
+  const history = useHistory();
+  const email = useRef();
+  const username = useRef();
+  const password = useRef();
+  const ctx = useContext(AppContext);
+  async function submitForm(e) {
     e.preventDefault();
-
     const body = {
-      email: this.state.email,
-      username: this.state.username,
-      password: this.state.password,
+      email: email.current.value,
+      username: username.current.value,
+      password: password.current.value,
     };
 
     const res = await fetch(`http://localhost:8000/api/v1/auth/signup`, {
@@ -33,62 +28,58 @@ export default class Signup extends Component {
     console.log(data);
     if (res) {
       document.cookie = `jwt=${data.token}; path=/`;
-      store.dispatch({ type: "signin" });
+      ctx.setLoggin(true);
+      history.replace("/");
     }
-  };
-
-  render() {
-    return (
-      <form
-        onSubmit={this.submitForm}
-        method="post"
-        action="/api/v1/auth/signup"
-        className="form"
-      >
-        <div className="form__control">
-          <label htmlFor="name" className="form__label">
-            Username
-          </label>
-          <input
-            name="username"
-            type="text"
-            id="name"
-            className="form__input"
-            value={this.state.username}
-            onInput={(e) => this.setState({ username: e.target.value })}
-          ></input>
-        </div>
-        <div className="form__control">
-          <label htmlFor="email" className="form__label">
-            Email
-          </label>
-          <input
-            name="email"
-            type="email"
-            id="email"
-            className="form__input"
-            value={this.state.email}
-            onInput={(e) => this.setState({ email: e.target.value })}
-          ></input>
-        </div>
-        <div className="form__control">
-          <label htmlFor="email" className="form__label">
-            Password
-          </label>
-          <input
-            name="password"
-            type="password"
-            id="password"
-            className="form__input"
-            value={this.state.password}
-            onInput={(e) => this.setState({ password: e.target.value })}
-          ></input>
-        </div>
-        <button type="submit" className="btn btn-flat">
-          Signup
-        </button>
-        <a href="/login">You do not have an account yet? Signup here</a>
-      </form>
-    );
   }
+
+  return (
+    <form
+      onSubmit={(e) => submitForm(e)}
+      method="post"
+      action="/api/v1/auth/signup"
+      className="form"
+    >
+      <div className="form__control">
+        <label htmlFor="name" className="form__label">
+          Username
+        </label>
+        <input
+          name="username"
+          type="text"
+          id="name"
+          className="form__input"
+          ref={username}
+        ></input>
+      </div>
+      <div className="form__control">
+        <label htmlFor="email" className="form__label">
+          Email
+        </label>
+        <input
+          name="email"
+          type="email"
+          id="email"
+          className="form__input"
+          ref={email}
+        ></input>
+      </div>
+      <div className="form__control">
+        <label htmlFor="email" className="form__label">
+          Password
+        </label>
+        <input
+          name="password"
+          type="password"
+          id="password"
+          className="form__input"
+          ref={password}
+        ></input>
+      </div>
+      <button type="submit" className="btn btn-flat">
+        Signup
+      </button>
+      <a href="/login">You do not have an account yet? Signup here</a>
+    </form>
+  );
 }

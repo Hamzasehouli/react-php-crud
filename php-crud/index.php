@@ -44,6 +44,7 @@ if (str_starts_with($_SERVER['REQUEST_URI'], '/api/v1/auth')) {
 
     $router->post('/api/v1/auth/login', [AuthControllers::class, 'login']);
     $router->post('/api/v1/auth/signup', [AuthControllers::class, 'signup']);
+    $router->post('/api/v1/auth/protect', [AuthControllers::class, 'protect']);
     $router->post('/api/v1/auth/logout', [AuthControllers::class, 'logout']);
     $router->run();
     exit;

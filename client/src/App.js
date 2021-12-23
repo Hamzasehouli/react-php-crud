@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useContext, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -12,56 +12,55 @@ import Home from "./views/Home";
 import Add from "./views/AddUser";
 import Update from "./views/UpdateUser";
 // import Footer from "./views/Footer";
-import store from "./store/reducers.js";
+import { AppContext } from "./store/index";
 
-(function () {
-  store.dispatch({ type: "setToken", payload: "hhhhh" });
-  console.log("fff");
-  store.subscribe(() => console.log(store.getState()));
-})();
+export const App = function () {
+  const ctx = useContext(AppContext);
 
-export default class App extends Component {
-  constructor() {
-    super();
-    this.isLoggedIn = false;
-    this.token = "";
-  }
-  async componentDidMount() {
-    const res = await fetch(``, {
+  useEffect(() => {
+    fetch(`http://localhost:8000/api/v1/auth/protect`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
       },
-      body: {},
-    });
-    const data = await res.json();
-    console.log(data);
-  }
-  render() {
-    return (
-      <Router>
-        <Header></Header>
-        <Route exact path="/">
-          <Redirect to="/home" />
-        </Route>
-        <Route path="/home">
-          <Home></Home>
-        </Route>
-        <Route path="/signup">
-          <Signup />
-        </Route>
-        <Route path="/login">
-          <Login />
-        </Route>
-        <Route path="/update">
-          <Update />
-        </Route>
-        <Route path="/Add">
-          <Add />
-        </Route>
-        {/* <main></main>
+      body: JSON.stringify({
+        jwt: document.cookie,
+      }),
+    })
+      .then((res) => {
+        const data = res.json();
+
+        return data;
+      })
+      .then((data) => {
+        ctx.setLoggin(true);
+        ctx.setEmailVal(data.email);
+      });
+  });
+
+  return (
+    <Router>
+      <Header></Header>
+      <Route exact path="/">
+        <Redirect to="/home" />
+      </Route>
+      <Route path="/home">
+        <Home></Home>
+      </Route>
+      <Route path="/signup">
+        <Signup />
+      </Route>
+      <Route path="/login">
+        <Login />
+      </Route>
+      <Route path="/update">
+        <Update />
+      </Route>
+      <Route path="/Add">
+        <Add />
+      </Route>
+      {/* <main></main>
         <Footer></Footer> */}
-      </Router>
-    );
-  }
-}
+    </Router>
+  );
+};
