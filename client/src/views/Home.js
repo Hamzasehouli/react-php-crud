@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export default function Home() {
   const [users, setUsers] = useState([]);
 
-  const image = require("../public/images/no-user.png");
+  // const image = require("../public/images/no-user.png");
 
   useEffect(() => {
     (async function () {
@@ -31,13 +31,17 @@ export default function Home() {
       <ul className="users__list">
         {users.map((user) => {
           return (
-            <li key={user.id} className="users__item">
-              <img
+            <li
+              style={{ padding: 3 + "rem" }}
+              key={user.id}
+              className="users__item"
+            >
+              {/* <img
                 alt={user.name + " photo"}
                 style={{ marginRight: 20 + "px" }}
                 className="users__img"
                 src={image.default}
-              ></img>
+              ></img> */}
 
               <div className="users__details">
                 <p className="users__info">Id:{user.id}</p>

@@ -9,6 +9,7 @@ export default function Header() {
   const onClick = function () {
     document.cookie = "jwt=;path=/";
     ctx.setLoggin(false);
+    ctx.setEmailVal("");
   };
   return (
     <header className="header">

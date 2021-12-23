@@ -20,8 +20,6 @@ import { AppContext } from "./store/index";
 export const App = function () {
   const history = useHistory();
 
-  console.log(history);
-
   const ctx = useContext(AppContext);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -38,8 +36,6 @@ export const App = function () {
           jwt: document.cookie,
         }),
       });
-
-      console.log(res);
 
       if (!res.ok) {
         setIsLoading(false);

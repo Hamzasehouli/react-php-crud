@@ -23,8 +23,40 @@ class UserControllers
     }
     public static function addUser()
     {
-        echo 'add user';
+
+        $con = Database::connect();
+
+        $body = json_decode(file_get_contents('php://input'));
+
+        print_r($body);
+
+        $name = $body->firstName;
+        $email = $body->email;
+
+        if ($name && $email) {
+
+            if (empty($name)) {
+                echo 'Please enter a name';
+                exit;
+            }
+            if (empty($email)) {
+                echo 'Please enter a valid email';
+                exit;
+            }
+
+            $query = "INSERT INTO user (name, email) VALUES(:name, :email)";
+
+            $stmt = $con->prepare($query);
+            $stmt->bindValue(':name', $name);
+            $stmt->bindValue(':email', $email);
+
+            if ($stmt->execute()) {
+                header("HTTP/1.1 201");
+                print_r(json_encode(['status' => 'success', 'message' => 'User added successfully']));
+            }
+        }
     }
+
     public static function getUser()
     {
         echo 'get user';

@@ -89,7 +89,7 @@ input {
 
 .users__list {
   width: 80%;
-  padding: 3rem;
+  padding: 6rem;
   border-radius: 10px;
   box-shadow: 2px 2px 20px rgba(99, 98, 98, 0.288);
   margin: 7rem auto;
@@ -116,7 +116,7 @@ input {
   flex: 1;
   margin-right: auto;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding: 0 5rem;
 }
 

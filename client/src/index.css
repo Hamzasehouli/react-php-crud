@@ -98,7 +98,6 @@ input {
 .users__item {
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
 .users__item:not(:last-of-type) {
@@ -113,14 +112,16 @@ input {
 }
 
 .users__details {
-  flex: 1;
-  margin-right: auto;
+  /* flex: 1; */
+  /* margin-right: auto; */
   display: flex;
   justify-content: space-between;
   padding: 0 5rem;
 }
 
-.users__info {
+.users__info:not(:last-of-type) {
+  margin-right: 6rem;
+  padding: 0;
 }
 
 .users__btns {

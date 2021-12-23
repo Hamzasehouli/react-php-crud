@@ -30,8 +30,8 @@ export default function Login() {
     const data = await res.json();
 
     if (res) {
-      document.cookie = `jwt=${data.token}; path=/`;
       ctx.setLoggin(true);
+      document.cookie = `jwt=${data.token}; path=/`;
       history.replace("/");
     }
   }
