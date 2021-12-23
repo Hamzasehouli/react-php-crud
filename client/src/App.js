@@ -12,10 +12,31 @@ import Home from "./views/Home";
 import Add from "./views/AddUser";
 import Update from "./views/UpdateUser";
 // import Footer from "./views/Footer";
+import store from "./store/reducers.js";
 
-import { AppContext, InitContext } from "./store/index";
+(function () {
+  store.dispatch({ type: "setToken", payload: "hhhhh" });
+  console.log("fff");
+  store.subscribe(() => console.log(store.getState()));
+})();
 
 export default class App extends Component {
+  constructor() {
+    super();
+    this.isLoggedIn = false;
+    this.token = "";
+  }
+  async componentDidMount() {
+    const res = await fetch(``, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: {},
+    });
+    const data = await res.json();
+    console.log(data);
+  }
   render() {
     return (
       <Router>

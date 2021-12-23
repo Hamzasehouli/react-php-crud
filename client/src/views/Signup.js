@@ -1,4 +1,6 @@
-import React, { Component } from "react";
+import React, { Component, useContext } from "react";
+
+import store from "../store/reducers.js";
 
 export default class Signup extends Component {
   constructor() {
@@ -29,6 +31,10 @@ export default class Signup extends Component {
     console.log(res);
     const data = await res.json();
     console.log(data);
+    if (res) {
+      document.cookie = `jwt=${data.token}; path=/`;
+      store.dispatch({ type: "signin" });
+    }
   };
 
   render() {

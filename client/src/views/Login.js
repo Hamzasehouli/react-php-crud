@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import store from "../store/reducers";
 
 export default class Login extends Component {
   constructor() {
@@ -23,6 +24,10 @@ export default class Login extends Component {
     const data = await res.json();
     console.log(data);
     console.log(res);
+    if (res) {
+      document.cookie = `jwt=${data.token}; path=/`;
+      store.dispatch({ type: "signin" });
+    }
   };
 
   render() {
