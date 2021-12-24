@@ -1,7 +1,8 @@
 <?php
 header('content-type:application/json');
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-headers: *");
+header("Access-Control-Allow-Headers: *");
+header("Access-Control-Allow-Methods: *");
 header('Access-Control-Allow-Credentials: true');
 // header('Access-Control-Max-Age: 86400'); // cache for 1 day
 require_once './vendor/autoload.php';
@@ -34,8 +35,8 @@ if (str_starts_with($_SERVER['REQUEST_URI'], '/api/v1/users')) {
 
     $router->get('/api/v1/users', [UserControllers::class, 'getAllUsers']);
     $router->post('/api/v1/users', [UserControllers::class, 'addUser']);
-    $router->get('/api/v1/users/getuser', [UserControllers::class, 'getUser']);
-    $router->update('/api/v1/users/updateuser', [UserControllers::class, 'updateUser']);
+    $router->post('/api/v1/users/getuser', [UserControllers::class, 'getUser']);
+    $router->post('/api/v1/users/updateuser', [UserControllers::class, 'updateUser']);
     $router->delete('/api/v1/users/deleteuser', [UserControllers::class, 'deleteUser']);
     $router->run();
     exit;

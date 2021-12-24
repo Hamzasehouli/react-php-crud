@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 export default function Home() {
   const [users, setUsers] = useState([]);
@@ -12,21 +12,54 @@ export default function Home() {
       const data = await res.json();
 
       if (res.ok) {
-        console.log(data.data.users);
         setUsers(() => data.data.users);
       }
     })();
   }, []);
-  console.log(users);
+
+  async function onClick(e) {
+    const id = e.target.dataset.id;
+    const res = await fetch("http://localhost:8000/api/v1/users/deleteuser", {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ id }),
+    });
+
+    if (res.status === 204) {
+      setUsers(users.filter((user) => user.id !== id));
+    }
+  }
+
+  {
+    if (users.length <= 0) {
+      return (
+        <>
+          <Link
+            to="/adduser"
+            style={{ marginTop: 10 + "px", display: "inline-block" }}
+            className="btn btn-primary anch"
+          >
+            Adduser
+          </Link>
+          <ul className="users__list">
+            <p>No users found</p>
+          </ul>
+        </>
+      );
+    }
+  }
+
   return (
     <>
-      <a
-        href="/adduser"
+      <Link
+        to="/adduser"
         style={{ marginTop: 10 + "px", display: "inline-block" }}
         className="btn btn-primary anch"
       >
         Adduser
-      </a>
+      </Link>
 
       <ul className="users__list">
         {users.map((user) => {
@@ -56,7 +89,13 @@ export default function Home() {
                 >
                   Edit
                 </Link>
-                <button href="" className="btn btn-danger anch">
+                <button
+                  onClick={(e) => onClick(e)}
+                  type="button"
+                  href=""
+                  data-id={user.id}
+                  className="btn btn-danger anch"
+                >
                   Delete
                 </button>
               </div>

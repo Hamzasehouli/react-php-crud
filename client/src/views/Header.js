@@ -1,15 +1,18 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useContext } from "react";
 import { AppContext } from "../store/index";
 
 export default function Header() {
+  const history = useHistory();
+
   const ctx = useContext(AppContext);
 
   const onClick = function () {
     document.cookie = "jwt=;path=/";
     ctx.setLoggin(false);
     ctx.setEmailVal("");
+    history.replace("/login");
   };
   return (
     <header className="header">

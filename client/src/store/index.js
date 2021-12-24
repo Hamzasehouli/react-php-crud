@@ -5,7 +5,7 @@ export const AppContext = createContext({
 });
 export const InitContext = function (props) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const ctx = {
     isLoggedIn,
     email,

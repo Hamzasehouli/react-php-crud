@@ -27,8 +27,6 @@ export default function Update() {
       body: JSON.stringify(body),
     });
 
-    console.log(res);
-
     if (res) {
       history.replace("/");
     }

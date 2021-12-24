@@ -59,13 +59,23 @@ class UserControllers
 
     public static function getUser()
     {
-        echo 'get user';
+        $body = json_decode(file_get_contents('php://input'));
+        $id = $body->id;
+        $con = Database::connect();
+        $stmt = $con->prepare("SELECT * FROM user WHERE(id=:id)");
+        $stmt->bindValue(':id', $id);
+        $stmt->execute();
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        header("HTTP/1.1 200");
+        print_r(json_encode(['status' => 'success', 'data' => ['users' => $result]]));
+
     }
-    public static function updateUser($id)
+
+    public static function deleteUser()
     {
-    }
-    public static function deleteUser($id)
-    {
+        $body = json_decode(file_get_contents('php://input'));
+        $id = $body->id;
         $con = Database::connect();
         $stmt = $con->prepare("SELECT * FROM user WHERE(id=:id)");
         $stmt->bindValue(':id', $id);
@@ -79,12 +89,11 @@ class UserControllers
             $stmt1->bindValue(':id', $id);
             $stmt1->bindValue(':active', false);
             if ($stmt1->execute()) {
-                unlink($_SERVER['DOCUMENT_ROOT'] . '/public/images/' . $user['image'] . '.png');
-                header("Location:/");
+                header("HTTP/1.1 204");
 
             }
         } else {
-            echo 'no user found';
+            header("HTTP/1.1 400");
         }
         // $con = Database::connect();
         // $stmt = $con->prepare("SELECT * FROM user WHERE(id=:id)");
@@ -106,29 +115,13 @@ class UserControllers
         //     echo 'no user found';
         // }
     }
-    public static function updateUserTest($id)
+    public static function updateUser()
     {
-        $userId = $id;
-        extract($_POST);
+        $body = json_decode(file_get_contents('php://input'));
 
-        $imageName = null;
-        if (!empty($_FILES['image']['tmp_name'])) {
-            $generateImageName = function ($num) {
-                $chars = '1234567890QWERTZUIOPLKJHGFDSAYXCVBNMqwertzuioplkjhgfdsayxcvbnm';
-                $imageName = $chars[3];
-                $charsLen = strlen($chars);
-                // echo $randoNum;
-                for ($i = 0; $i <= $num; $i++) {
-                    $randoNum = rand(1, $charsLen);
-                    $imageName .= $chars[$randoNum];
-                }
-                return $imageName;
-            };
-
-            $imageName = $generateImageName(20);
-
-            move_uploaded_file($_FILES["image"]["tmp_name"], $_SERVER['DOCUMENT_ROOT'] . '/public/images/' . $imageName . '.png');
-        }
+        $userId = $body->id;
+        $email = $body->email;
+        $name = $body->name;
 
         $con = Database::connect();
         $stmt = $con->prepare("SELECT * FROM user WHERE(id=:id)");
@@ -145,21 +138,11 @@ class UserControllers
             if ($email) {
                 $sql .= "email=:email ";
             }
-            if ($imageName) {
-                $sql .= "image=:image";
-            }
-            // print_r(trim($sql));
+
             $arr = explode(' ', trim($sql));
             $tata = implode(',', $arr);
-            print_r($tata);
-            // print_r($tata);
-            // $imageValidity = $name ? 'name=:name' : '';
-            // $emailValidty = $email ? 'email=:email' : '';
-            // $imageValidiy = $imageName ? 'image=:image' : '';
 
-            // print_r($_POST);
             $query = "UPDATE user SET $tata WHERE id=:id";
-            // print_r($query);
 
             $stmt1 = $con->prepare($query);
 
@@ -172,21 +155,20 @@ class UserControllers
                 $stmt1->bindValue(':email', $email);
             }
 
-            if ($imageName) {
-                $stmt1->bindValue(':image', $imageName);
-                unlink($_SERVER['DOCUMENT_ROOT'] . '/public/images/' . $user['image'] . '.png');
-            }
-
-            if ($imageName || $email || $name) {
+            if ($email || $name) {
                 if ($stmt1->execute()) {
-                    header("Location:/");
+                    print_r('success');
                 }
             } else {
-                echo 'Please enter at least one field to update data';
+                header("HTTP/1.1 400");
+                print_r(json_encode(['status' => 'fail', 'message' => 'Please enter at least one field to update data']));
+
             }
 
         } else {
-            echo 'no user found';
+            header("HTTP/1.1 404");
+            print_r(json_encode(['status' => 'fail', 'message' => 'no user found']));
+
         }
     }
 
