@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { AppContext } from "../store/index";
 
 export default function Signup() {
@@ -30,6 +30,7 @@ export default function Signup() {
       document.cookie = `jwt=${data.token}; path=/`;
 
       ctx.setLoggin(true);
+      ctx.setEmailVal(data.email);
       history.replace("/");
     }
   }
@@ -80,7 +81,7 @@ export default function Signup() {
       <button type="submit" className="btn btn-flat">
         Signup
       </button>
-      <a href="/login">You do not have an account yet? Signup here</a>
+      <Link to="/login">You do not have an account yet? Signup here</Link>
     </form>
   );
 }

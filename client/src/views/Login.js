@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { useContext, useRef } from "react";
 import { AppContext } from "../store/index";
 
@@ -13,6 +13,7 @@ export default function Login() {
   const ctx = useContext(AppContext);
 
   async function onSubmit(e) {
+    console.log("ffffffffffffffffff");
     e.preventDefault();
 
     const body = {
@@ -30,9 +31,12 @@ export default function Login() {
     const data = await res.json();
 
     if (res) {
-      ctx.setLoggin(true);
+      await ctx.setLoggin(true);
+      ctx.setEmailVal(data.email);
       document.cookie = `jwt=${data.token}; path=/`;
-      history.replace("/");
+      setTimeout(() => {
+        // history.replace("/");
+      }, 1500);
     }
   }
 
@@ -65,7 +69,7 @@ export default function Login() {
       <button type="submit" className="btn btn-flat">
         Login
       </button>
-      <a href="/signup">You do not have an account yet? Signup here</a>
+      <Link to="/signup">You do not have an account yet? Signup here</Link>
     </form>
   );
 }
