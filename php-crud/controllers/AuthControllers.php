@@ -14,12 +14,14 @@ class AuthControllers
         $password = $body->password;
 
         if (!$email) {
-            echo 'Please enter a valid email';
-            return;
+            header("HTTP/1.1 400");
+            echo (json_encode(['status' => 'fail', 'message' => 'Please enter a valid email']));
+            exit;
         }
         if (!$password) {
-            echo 'Please enter a valid password';
-            return;
+            header("HTTP/1.1 400");
+            echo (json_encode(['status' => 'fail', 'message' => 'Please enter a valid password']));
+            exit;
         }
 
         $con = Database::connect();
@@ -30,20 +32,23 @@ class AuthControllers
         $stmt->execute();
         $row = $stmt->rowCount();
         if ($row < 1) {
-            echo 'user not found with that email';
-            return;
+            header("HTTP/1.1 404");
+            echo (json_encode(['status' => 'fail', 'message' => 'user not found with that email']));
+
+            exit;
         }
         $user = $stmt->fetch(\PDO::FETCH_ASSOC);
 
         $isPasswordValid = password_verify($password, $user['password']);
         if (!$isPasswordValid) {
-            echo 'user not found with that password';
-            return;
+            header("HTTP/1.1 404");
+            echo (json_encode(['status' => 'fail', 'message' => 'user not found with that password']));
+            exit;
         }
 
         $jwt = JwtHandler::generateToken($email);
         header("HTTP/1.1 200");
-        print_r(json_encode(['status' => 'success', 'message' => 'You logged in successfully', 'token' => $jwt, 'isLoggedin' => true, 'email' => $email]));
+        echo (json_encode(['status' => 'success', 'message' => 'You logged in successfully', 'token' => $jwt, 'isLoggedin' => true, 'email' => $email]));
 
     }
     public static function logout()
