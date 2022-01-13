@@ -28,19 +28,19 @@ class UserControllers
 
         $body = json_decode(file_get_contents('php://input'));
 
-        print_r($body);
-
         $name = $body->firstName;
         $email = $body->email;
 
         if ($name && $email) {
 
             if (empty($name)) {
-                echo 'Please enter a name';
+                header("HTTP/1.1 400");
+                echo (json_encode(['status' => 'success', 'message' => 'Please enter a name']));
                 exit;
             }
             if (empty($email)) {
-                echo 'Please enter a valid email';
+                header("HTTP/1.1 400");
+                echo (json_encode(['status' => 'success', 'message' => 'Please enter a valid email']));
                 exit;
             }
 
@@ -52,7 +52,7 @@ class UserControllers
 
             if ($stmt->execute()) {
                 header("HTTP/1.1 201");
-                print_r(json_encode(['status' => 'success', 'message' => 'User added successfully']));
+                echo (json_encode(['status' => 'success', 'message' => 'User added successfully']));
             }
         }
     }
@@ -157,17 +157,17 @@ class UserControllers
 
             if ($email || $name) {
                 if ($stmt1->execute()) {
-                    print_r('success');
+                    echo ('success');
                 }
             } else {
                 header("HTTP/1.1 400");
-                print_r(json_encode(['status' => 'fail', 'message' => 'Please enter at least one field to update data']));
+                echo (json_encode(['status' => 'fail', 'message' => 'Please enter at least one field to update data']));
 
             }
 
         } else {
             header("HTTP/1.1 404");
-            print_r(json_encode(['status' => 'fail', 'message' => 'no user found']));
+            echo (json_encode(['status' => 'fail', 'message' => 'no user found']));
 
         }
     }

@@ -9,7 +9,8 @@ export default function AddUser() {
 
   const params = useParams();
   const userid = params.userid;
-
+  const [err, setErr] = useState({ status: true, message: "" });
+  const [isLoading, setIsloading] = useState(false);
   const [user, setUser] = useState({});
 
   useEffect(() => {
@@ -35,6 +36,24 @@ export default function AddUser() {
       id: userid,
     };
 
+    if (!body.email.trim() && !body.name.trim()) {
+      setErr({ status: false, message: "Please fill all the required fields" });
+      setIsloading(false);
+      setTimeout(() => {
+        setErr({ status: true, message: "" });
+      }, 1500);
+      return;
+    }
+
+    if (!body.id) {
+      setErr({ status: false, message: "Id is missing" });
+      setIsloading(false);
+      setTimeout(() => {
+        setErr({ status: true, message: "" });
+      }, 1500);
+      return;
+    }
+
     const res = await fetch("http://localhost:8000/api/v1/users/updateuser", {
       method: "POST",
       headers: {
@@ -43,13 +62,27 @@ export default function AddUser() {
       body: JSON.stringify(body),
     });
 
-    if (res.ok) {
-      history.replace("/");
+    const data = res.json();
+
+    if (!res.ok) {
+      setErr({ status: false, message: data.message });
+      setIsloading(false);
+      setTimeout(() => {
+        setErr({ status: true, message: "" });
+      }, 1500);
+      return;
     }
+    setIsloading(false);
+
+    history.replace("/");
+  }
+
+  if (!err.status) {
+    return <p className="form">{err.message}</p>;
   }
   return (
     <form onSubmit={(e) => onSubmit(e)} className="form">
-      <h2 class="form__heading">Edit user</h2>
+      <h2 className="form__heading">Edit user</h2>
       <div className="form__control">
         {/* <label htmlFor="name" className="form__label">
           Name

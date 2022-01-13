@@ -42,7 +42,7 @@ export default function Home() {
         >
           Adduser
         </Link> */}
-        <div class="list-upper">
+        <div className="list-upper">
           <h2>Users list</h2>
           <Link
             to="/adduser"
@@ -61,7 +61,7 @@ export default function Home() {
 
   return (
     <>
-      <div class="list-upper">
+      <div className="list-upper">
         <h2>Users list</h2>
         <Link
           to="/adduser"
@@ -89,15 +89,15 @@ export default function Home() {
 
               <div className="users__details">
                 <p className="users__info">
-                  <span class="users__info-title">Id</span>
+                  <span className="users__info-title">Id</span>
                   <span>{user.id}</span>
                 </p>
                 <p className="users__info">
-                  <span class="users__info-title">Name</span>
+                  <span className="users__info-title">Name</span>
                   <span>{user.name}</span>
                 </p>
                 <p className="users__info">
-                  <span class="users__info-title">Email</span>
+                  <span className="users__info-title">Email</span>
                   <span>{user.email}</span>
                 </p>
               </div>

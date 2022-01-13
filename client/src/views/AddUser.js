@@ -11,13 +11,23 @@ export default function Update() {
 
   const ctx = useContext(AppContext);
 
+  const [err, setErr] = useState({ status: true, message: "" });
+  const [isLoading, setIsloading] = useState(false);
   async function onSubmit(e) {
     e.preventDefault();
-
     const body = {
       email: email.current.value,
       firstName: name.current.value,
     };
+
+    if (!body.email.trim() || !body.firstName.trim()) {
+      setErr({ status: false, message: "Please fill all the required fields" });
+      setIsloading(false);
+      setTimeout(() => {
+        setErr({ status: true, message: "" });
+      }, 1500);
+      return;
+    }
 
     const res = await fetch("http://localhost:8000/api/v1/users", {
       method: "POST",
@@ -31,9 +41,14 @@ export default function Update() {
       history.replace("/");
     }
   }
+
+  if (!err.status) {
+    return <p className="form">{err.message}</p>;
+  }
+
   return (
     <form onSubmit={(e) => onSubmit(e)} className="form">
-      <h2 class="form__heading">Add user</h2>
+      <h2 className="form__heading">Add user</h2>
       <div className="form__control">
         {/* <label htmlFor="name" className="form__label">
           Name
