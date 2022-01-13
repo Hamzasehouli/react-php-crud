@@ -17,7 +17,12 @@ export default function Header() {
   return (
     <header className="header">
       <nav className="nav">
-        <Link to="/">Home</Link>
+        <Link
+          style={{ color: "var(--color-secondary)", fontWeight: 700 }}
+          to="/"
+        >
+          react-php-crud
+        </Link>
         <ul className="nav__list">
           {/* <li className="nav__item">
               <form action="/api/v1/auth/logout" method="post">

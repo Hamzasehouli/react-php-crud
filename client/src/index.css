@@ -1,9 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,700;1,300&display=swap");
 :root {
-  --color-primary: red;
-  --color-secondary: blue;
+  --color-primary: rgb(199, 98, 98);
+  --color-secondary: #3682f1;
+  --color-secondary-light: #c4dcff;
 
-  --color-dark: black;
+  --color-dark: rgb(102, 102, 102);
   --color-light: white;
 }
 
@@ -24,13 +25,66 @@ body {
   font-family: "Roboto", sans-serif;
   font-size: 1.6rem;
   font-weight: 400;
+  color: var(--color-dark);
+  position: relative;
+}
+
+.bg {
+  position: absolute;
+  width: 100%;
+  min-height: 140vh;
+  overflow: hidden;
+  z-index: -999;
+}
+
+.bg::after {
+  content: "";
+  position: absolute;
+  display: block;
+  height: 70rem;
+  width: 30rem;
+  background-color: var(--color-secondary);
+  top: 3rem;
+  left: -25rem;
+  transform: rotate(30deg);
+  border-radius: 70px;
+  box-shadow: 40px 10px 1px var(--color-secondary-light);
+}
+.bg::before {
+  content: "";
+  position: absolute;
+  display: block;
+  height: 70rem;
+  width: 30rem;
+  background-color: var(--color-secondary);
+  top: 8rem;
+  right: -10rem;
+  transform: rotate(30deg);
+  border-radius: 70px;
+  box-shadow: -40px -10px 1px var(--color-secondary-light);
+  overflow: hidden;
+  animation: after 3s linear delay infinite backwards;
+  animation-name: after;
+}
+@keyframes after {
+  0% {
+    transform: translate(-5rem);
+  }
+
+  50% {
+    transform: translate(5rem);
+  }
+
+  100% {
+    transform: translate(0);
+  }
 }
 
 .form {
   width: 40%;
   margin: 7rem auto;
-  padding: 3rem;
-  border-radius: 10px;
+  padding: 5rem 7rem;
+  border-radius: 30px;
   box-shadow: 2px 2px 20px rgba(129, 127, 127, 0.301);
 }
 
@@ -51,12 +105,24 @@ body {
   outline: none;
   border: none;
   box-sizing: inherit;
-  border: 1.5px solid rgba(189, 188, 188, 0.377);
+  border-bottom: 1.5px solid rgba(189, 188, 188, 0.377);
+}
+
+.form__input::placeholder {
+  opacity: 0.5;
+}
+
+.form__control:last-of-type {
+  margin-bottom: 4rem;
 }
 
 .form__input,
 .btn-form {
   height: 3rem;
+}
+
+.form__heading {
+  margin-bottom: 3rem;
 }
 
 button,
@@ -65,7 +131,7 @@ button,
   outline: none;
   border: none;
   padding: 0.7rem 4rem;
-  border-radius: 10px;
+  border-radius: 100px;
   color: var(--color-light);
 }
 
@@ -81,23 +147,33 @@ input {
 }
 
 .btn-primary {
-  background-color: blue;
+  background-color: var(--color-secondary);
 }
 .btn-danger {
-  background-color: red;
+  background-color: var(--color-primary);
+}
+
+.btn-empty {
+  color: var(--color-secondary);
+  border-bottom: 1.5px solid var(--color-secondary);
 }
 
 .users__list {
   width: 80%;
   padding: 3rem;
-  border-radius: 10px;
-  box-shadow: 2px 2px 20px rgba(99, 98, 98, 0.288);
-  margin: 7rem auto;
+  /* box-shadow: 2px 2px 20px rgba(99, 98, 98, 0.288); */
+  margin: 0 auto;
 }
 
 .users__item {
+  border-radius: 10px;
   display: flex;
+  margin: 2rem auto;
   justify-content: space-between;
+  align-items: center;
+  box-shadow: 2px 2px 20px rgba(99, 98, 98, 0.288);
+  padding: 5rem !important;
+  background-color: var(--color-light);
 }
 
 .users__item:not(:last-of-type) {
@@ -124,22 +200,26 @@ input {
   padding: 0;
 }
 
-.users__btns {
+.users__info {
+  display: flex;
+  flex-direction: column;
+}
+.users__info-title {
+  color: rgb(189, 188, 188);
+  margin-bottom: 1.5rem;
 }
 
 a {
   text-decoration: none;
 }
 
-.header {
-}
-
 nav {
   box-shadow: 2px 2px 20px rgba(146, 146, 146, 0.349);
   display: flex;
   justify-content: space-between;
-
-  padding: 1.5em 3rem;
+  align-items: center;
+  padding: 1.5em 15rem;
+  background-color: var(--color-light);
 }
 
 .nav__list {
@@ -151,9 +231,34 @@ nav {
   margin-right: 1.5rem;
 }
 
-.nav__link {
+.nav__item {
+  color: var(--color-dark);
 }
 
 ul {
   list-style: none;
+}
+
+.mr {
+  margin-right: 3rem;
+}
+
+.btn-ghost {
+  background-color: var(--color-secondary-light);
+  color: var(--color-secondary);
+  height: 3.2rem;
+  display: inline-block;
+  font-weight: 400;
+}
+
+.list-upper {
+  margin: 3rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.list-upper h2 {
+  margin-top: 1rem;
+  margin-right: 4rem;
 }

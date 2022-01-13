@@ -49,10 +49,11 @@ export default function AddUser() {
   }
   return (
     <form onSubmit={(e) => onSubmit(e)} className="form">
+      <h2 class="form__heading">Edit user</h2>
       <div className="form__control">
-        <label htmlFor="name" className="form__label">
+        {/* <label htmlFor="name" className="form__label">
           Name
-        </label>
+        </label> */}
         <input
           placeholder={user.name}
           ref={name}
@@ -63,9 +64,9 @@ export default function AddUser() {
         ></input>
       </div>
       <div className="form__control">
-        <label htmlFor="email" className="form__label">
+        {/* <label htmlFor="email" className="form__label">
           Email
-        </label>
+        </label> */}
         <input
           placeholder={user.email}
           ref={email}
@@ -93,8 +94,8 @@ export default function AddUser() {
             className="form__input"
           ></input>
         </div> */}
-      <button type="submit" className="btn btn-flat">
-        Save
+      <button type="submit" className="btn btn-primary">
+        Submit
       </button>
     </form>
   );

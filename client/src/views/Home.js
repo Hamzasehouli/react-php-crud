@@ -32,10 +32,18 @@ export default function Home() {
     }
   }
 
-  {
-    if (users.length <= 0) {
-      return (
-        <>
+  if (users.length <= 0) {
+    return (
+      <>
+        {/* <Link
+          to="/adduser"
+          style={{ marginTop: 10 + "px", display: "inline-block" }}
+          className="btn btn-primary anch"
+        >
+          Adduser
+        </Link> */}
+        <div class="list-upper">
+          <h2>Users list</h2>
           <Link
             to="/adduser"
             style={{ marginTop: 10 + "px", display: "inline-block" }}
@@ -43,23 +51,26 @@ export default function Home() {
           >
             Adduser
           </Link>
-          <ul className="users__list">
-            <p>No users found</p>
-          </ul>
-        </>
-      );
-    }
+        </div>
+        <ul className="users__list">
+          <p>No users found</p>
+        </ul>
+      </>
+    );
   }
 
   return (
     <>
-      <Link
-        to="/adduser"
-        style={{ marginTop: 10 + "px", display: "inline-block" }}
-        className="btn btn-primary anch"
-      >
-        Adduser
-      </Link>
+      <div class="list-upper">
+        <h2>Users list</h2>
+        <Link
+          to="/adduser"
+          style={{ marginTop: 10 + "px", display: "inline-block" }}
+          className="btn btn-primary anch"
+        >
+          Adduser
+        </Link>
+      </div>
 
       <ul className="users__list">
         {users.map((user) => {
@@ -77,14 +88,23 @@ export default function Home() {
               ></img> */}
 
               <div className="users__details">
-                <p className="users__info">Id:{user.id}</p>
-                <p className="users__info">Name: {user.name}</p>
-                <p className="users__info">Email: {user.email}</p>
+                <p className="users__info">
+                  <span class="users__info-title">Id</span>
+                  <span>{user.id}</span>
+                </p>
+                <p className="users__info">
+                  <span class="users__info-title">Name</span>
+                  <span>{user.name}</span>
+                </p>
+                <p className="users__info">
+                  <span class="users__info-title">Email</span>
+                  <span>{user.email}</span>
+                </p>
               </div>
               <div className="users__btns">
                 <Link
                   to={"/updateuser/" + user.id}
-                  style={{ marginRight: 7 + "px" }}
+                  style={{ marginRight: 7 + "px", padding: "0.6rem 5rem" }}
                   className="btn btn-primary anch"
                 >
                   Edit
@@ -94,7 +114,7 @@ export default function Home() {
                   type="button"
                   href=""
                   data-id={user.id}
-                  className="btn btn-danger anch"
+                  className="btn btn-ghost anch"
                 >
                   Delete
                 </button>

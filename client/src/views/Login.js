@@ -8,12 +8,9 @@ export default function Login() {
 
   const password = useRef();
 
-  const history = useHistory();
-
   const ctx = useContext(AppContext);
 
   async function onSubmit(e) {
-    console.log("ffffffffffffffffff");
     e.preventDefault();
 
     const body = {
@@ -42,11 +39,13 @@ export default function Login() {
 
   return (
     <form onSubmit={(e) => onSubmit(e)} className="form">
+      <h2 class="form__heading">Log in</h2>
       <div className="form__control">
-        <label htmlFor="email" className="form__label">
+        {/* <label htmlFor="email" className="form__label">
           Email
-        </label>
+        </label> */}
         <input
+          placeholder="Email"
           name="email"
           type="email"
           id="email"
@@ -55,10 +54,11 @@ export default function Login() {
         ></input>
       </div>
       <div className="form__control">
-        <label htmlFor="email" className="form__label">
+        {/* <label htmlFor="email" className="form__label">
           Password
-        </label>
+        </label> */}
         <input
+          placeholder="Password"
           name="password"
           type="password"
           id="password"
@@ -66,10 +66,12 @@ export default function Login() {
           className="form__input"
         ></input>
       </div>
-      <button type="submit" className="btn btn-flat">
+      <button type="submit" className="btn btn-primary mr">
         Login
       </button>
-      <Link to="/signup">You do not have an account yet? Signup here</Link>
+      <Link class="btn btn-empty" to="/signup">
+        Sign up
+      </Link>
     </form>
   );
 }

@@ -33,11 +33,13 @@ export default function Update() {
   }
   return (
     <form onSubmit={(e) => onSubmit(e)} className="form">
+      <h2 class="form__heading">Add user</h2>
       <div className="form__control">
-        <label htmlFor="name" className="form__label">
+        {/* <label htmlFor="name" className="form__label">
           Name
-        </label>
+        </label> */}
         <input
+          placeholder="Name"
           name="name"
           type="text"
           id="name"
@@ -46,10 +48,11 @@ export default function Update() {
         ></input>
       </div>
       <div className="form__control">
-        <label htmlFor="email" className="form__label">
+        {/* <label htmlFor="email" className="form__label">
           Email
-        </label>
+        </label> */}
         <input
+          placeholder="Email"
           name="email"
           type="email"
           id="email"
@@ -68,8 +71,8 @@ export default function Update() {
           className="form__input"
         ></input>
       </div> */}
-      <button type="submit" className="btn btn-flat">
-        Add
+      <button type="submit" className="btn btn-primary">
+        Submit
       </button>
     </form>
   );

@@ -42,11 +42,13 @@ export default function Signup() {
       action="/api/v1/auth/signup"
       className="form"
     >
+      <h2 class="form__heading">Sign up</h2>
       <div className="form__control">
-        <label htmlFor="name" className="form__label">
+        {/* <label htmlFor="name" className="form__label">
           Username
-        </label>
+        </label> */}
         <input
+          placeholder="Username"
           name="username"
           type="text"
           id="name"
@@ -55,10 +57,11 @@ export default function Signup() {
         ></input>
       </div>
       <div className="form__control">
-        <label htmlFor="email" className="form__label">
+        {/* <label htmlFor="email" className="form__label">
           Email
-        </label>
+        </label> */}
         <input
+          placeholder="Email"
           name="email"
           type="email"
           id="email"
@@ -67,10 +70,11 @@ export default function Signup() {
         ></input>
       </div>
       <div className="form__control">
-        <label htmlFor="email" className="form__label">
+        {/* <label htmlFor="email" className="form__label">
           Password
-        </label>
+        </label> */}
         <input
+          placeholder="Password"
           name="password"
           type="password"
           id="password"
@@ -78,10 +82,12 @@ export default function Signup() {
           ref={password}
         ></input>
       </div>
-      <button type="submit" className="btn btn-flat">
+      <button type="submit" className="btn btn-primary mr">
         Signup
       </button>
-      <Link to="/login">You do not have an account yet? Signup here</Link>
+      <Link class="btn btn-empty" to="/login">
+        Log in
+      </Link>
     </form>
   );
 }
