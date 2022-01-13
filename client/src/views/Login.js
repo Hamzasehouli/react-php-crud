@@ -93,7 +93,7 @@ export default function Login() {
         ></input>
       </div>
       <button type="submit" className="btn btn-primary mr">
-        {isLoading ? "wait" : "Login"}
+        {isLoading ? "wait" : "Log in"}
       </button>
       <Link className="btn btn-empty" to="/signup">
         Sign up

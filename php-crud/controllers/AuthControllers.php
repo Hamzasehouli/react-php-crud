@@ -66,16 +66,19 @@ class AuthControllers
         $password = $body->password;
 
         if (!$username) {
-            echo 'Please enter a valid username';
-            return;
+            header("HTTP/1.1 404");
+            echo (json_encode(['status' => 'fail', 'message' => 'Please enter a valid username']));
+            exit;
         }
         if (!$email) {
-            echo 'Please enter a valid email';
-            return;
+            header("HTTP/1.1 404");
+            echo (json_encode(['status' => 'fail', 'message' => 'Please enter a valid email']));
+            exit;
         }
         if (!$password) {
-            echo 'Please enter a valid password';
-            return;
+            header("HTTP/1.1 404");
+            echo (json_encode(['status' => 'fail', 'message' => 'Please enter a valid password']));
+            exit;
         }
 
         $con = Database::connect();
@@ -86,11 +89,14 @@ class AuthControllers
         $stmt->bindValue(':email', $email);
         $passwordHashed = password_hash($password, PASSWORD_DEFAULT);
         $stmt->bindValue(':password', $passwordHashed);
-        if ($stmt->execute()) {
+        try {
+            $stmt->execute();
             $jwt = JwtHandler::generateToken($email);
             header("HTTP/1.1 201");
-            print_r(json_encode(['status' => 'success', 'message' => 'You sign up successfully', 'token' => $jwt, 'isLoggedin' => true, 'email' => $email]));
-
+            echo (json_encode(['status' => 'success', 'message' => 'You sign up successfully', 'token' => $jwt, 'isLoggedin' => true, 'email' => $email]));
+        } catch (\PDOException$e) {
+            header("HTTP/1.1 500");
+            echo (json_encode(['status' => 'fail', 'message' => 'The entered email is already used']));
         }
 
     }

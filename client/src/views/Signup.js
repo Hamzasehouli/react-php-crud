@@ -1,8 +1,10 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { useHistory, Link } from "react-router-dom";
 import { AppContext } from "../store/index";
 
 export default function Signup() {
+  const [err, setErr] = useState({ status: true, message: "" });
+  const [isLoading, setIsloading] = useState(false);
   const history = useHistory();
   const email = useRef();
   const username = useRef();
@@ -10,11 +12,22 @@ export default function Signup() {
   const ctx = useContext(AppContext);
   async function submitForm(e) {
     e.preventDefault();
+
+    setIsloading(true);
     const body = {
       email: email.current.value,
       username: username.current.value,
       password: password.current.value,
     };
+
+    if (!body.email.trim() || !body.password.trim() || !body.username.trim()) {
+      setErr({ status: false, message: "Please fill all the required fields" });
+      setIsloading(false);
+      setTimeout(() => {
+        setErr({ status: true, message: "" });
+      }, 1500);
+      return;
+    }
 
     const res = await fetch(`http://localhost:8000/api/v1/auth/signup`, {
       method: "POST",
@@ -26,13 +39,26 @@ export default function Signup() {
 
     const data = await res.json();
 
-    if (res) {
-      document.cookie = `jwt=${data.token}; path=/`;
-
-      ctx.setLoggin(true);
-      ctx.setEmailVal(data.email);
-      history.replace("/");
+    if (!res.ok) {
+      setErr({ status: false, message: data.message });
+      setIsloading(false);
+      setTimeout(() => {
+        setErr({ status: true, message: "" });
+      }, 1500);
+      return;
     }
+
+    setIsloading(false);
+
+    document.cookie = `jwt=${data.token}; path=/`;
+
+    ctx.setLoggin(true);
+    ctx.setEmailVal(data.email);
+    history.replace("/");
+  }
+
+  if (!err.status) {
+    return <p className="form">{err.message}</p>;
   }
 
   return (
@@ -42,7 +68,7 @@ export default function Signup() {
       action="/api/v1/auth/signup"
       className="form"
     >
-      <h2 class="form__heading">Sign up</h2>
+      <h2 className="form__heading">Sign up</h2>
       <div className="form__control">
         {/* <label htmlFor="name" className="form__label">
           Username
@@ -83,9 +109,9 @@ export default function Signup() {
         ></input>
       </div>
       <button type="submit" className="btn btn-primary mr">
-        Signup
+        {isLoading ? "wait" : "Sign up"}
       </button>
-      <Link class="btn btn-empty" to="/login">
+      <Link className="btn btn-empty" to="/login">
         Log in
       </Link>
     </form>
